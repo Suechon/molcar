@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Zdog Tutorial</title>
+    <script src="https://unpkg.com/zdog@1/dist/zdog.dist.min.js"></script>
+</head>
+
+<body>
+    <canvas width="500" height="500" class="zdog-canvas"></canvas>
+    <script>
+        const mainColor = "#f2ebd1"
+        const pink = "pink"
+        const brown = "#705444"
+
+
+        const illo = new Zdog.Illustration({
+            element: '.zdog-canvas',
+            dragRotate: true
+        })
+
+        let anchor = new Zdog.Anchor({
+            addTo: illo,
+        });
+        let body = new Zdog.Shape({
+            addTo: anchor,
+            stroke: 200,
+            color: mainColor,
+            path: [{ x: 0, y: 0 }
+                , {
+                arc: [
+                    { x: 0, y: 0, z: 0 },
+                    { x: 0, y: 0, z: -90 },
+                ]
+            },],
+        })
+
+
+        let rightEye = new Zdog.Shape({
+            addTo: body,
+            stroke: 25,
+            color: 'black',
+            translate: { x: 30, y: 20, z: 75 },
+        })
+
+        let leftEye = rightEye.copyGraph({
+            translate: { x: -30, y: 20, z: 75 },
+        });
+
+        let rightEyeLight = new Zdog.Shape({
+            addTo: rightEye,
+            stroke: 5,
+            color: 'white',
+            translate: { x: -5, y: -5, z: 10 },
+        })
+
+        let leftEyeLight = new Zdog.Shape({
+            addTo: leftEye,
+            stroke: 5,
+            color: 'white',
+            translate: { x: 5, y: -5, z: 10 },
+        })
+
+        let rightNose = new Zdog.Shape({
+            addTo: body,
+            path: [
+                { x: 10, y: 70, z: 65 },
+                {
+                    bezier: [
+                        { x: 15, y: 60, z: 65 },
+                        { x: 10, y: 75, z: 60 },
+                        { x: 0, y: 75, z: 60 },
+                        { x: 0, y: 85, z: 55 },
+                    ]
+                },
+                { x: 0, y: 85, z: 55 },
+            ],
+            closed: false,
+            stroke: 5,
+            color: brown
+        });
+        let leftNose = new Zdog.Shape({
+            addTo: body,
+            path: [
+                { x: -10, y: 70, z: 65 },
+                {
+                    bezier: [
+                        { x: -15, y: 60, z: 65 },
+                        { x: -10, y: 75, z: 60 },
+                        { x: 0, y: 75, z: 60 },
+                        { x: 0, y: 85, z: 55 },
+                    ]
+                },
+                { x: 0, y: 85, z: 55 },
+            ],
+            closed: false,
+            stroke: 5,
+            color: brown
+        });
+
+        let rightWhiskerPad = new Zdog.Shape({
+            addTo: body,
+            stroke: 120,
+            color: mainColor,
+            path: [{ x: 35, y: 40, z: 25 }
+                , {
+                arc: [
+                    { x: 25, y: 0, z: 0 },
+                    { x: 25, y: 0, z: 0 },
+                ]
+            },
+            ],
+        });
+
+
+        let leftWhiskerPad = new Zdog.Shape({
+            addTo: body,
+            stroke: 120,
+            color: mainColor,
+            path: [{ x: -35, y: 40, z: 25 }
+                , {
+                arc: [
+                    { x: -25, y: 0, z: 0 },
+                    { x: -25, y: 0, z: 0 },
+                ]
+            },
+            ],
+        });
+
+        let mouthBack = new Zdog.Ellipse({
+            addTo: body,
+            width: 15,
+            height: 10,
+            stroke: 20,
+            color: mainColor,
+            translate: { y: 90, z: 35 },
+        })
+
+        let mouth = new Zdog.Ellipse({
+            addTo: mouthBack,
+            width: 8,
+            height: 5,
+            stroke: 10,
+            color: pink,
+            fill: true,
+            translate: { y: 4, z: 3 },
+        });
+
+
+
+        let rightEar = new Zdog.Ellipse({
+            addTo: body,
+            fill: true,
+            width: 30,
+            height: 40,
+            stroke: 20,
+            color: brown,
+            translate: { x: 55, y: -70, z: 20 },
+            rotate: { z: Zdog.TAU / 30 },
+        });
+
+        let leftEar = rightEar.copyGraph({
+            translate: { x: -55, y: -75, z: 20 },
+            rotate: { z: Zdog.TAU / -30 },
+        });
+
+        let frontRightFoot = new Zdog.Ellipse({
+            addTo: body,
+            fill: true,
+            diameter: 50,
+            stroke: 20,
+            color: '#C25',
+            translate: { x: 90, y: 70, z: 0 },
+            rotate: { x: Zdog.TAU / 3, y: Zdog.TAU / 2, },
+        });
+        new Zdog.Ellipse({
+            addTo: frontRightFoot,
+            fill: true,
+            stroke: 20,
+            color: 'white',
+
+        });
+        let frontLeftFoot = frontRightFoot.copyGraph({
+            translate: { x: -90, y: 70, z: 0 },
+            rotate: { y: Zdog.TAU / 4 },
+        });
+
+        let backRightFoot = frontRightFoot.copyGraph({
+            translate: { x: 80, y: 70, z: -130 },
+            rotate: { y: Zdog.TAU / 4 },
+        });
+        let backLeftFoot = frontRightFoot.copyGraph({
+            translate: { x: -80, y: 70, z: -130 },
+            rotate: { y: Zdog.TAU / 4 },
+        });
+        let front = new Zdog.Shape({
+            addTo: body,
+            fill: true,
+            color: pink,
+            path: [
+                { x: -70, y: -5, z: 70 },
+                { x: -65, y: -35, z: 70 },
+                {
+                    bezier: [
+                        { x: -65, y: -35, z: 70 },
+                        { x: 0, y: -45, z: 120 },
+                        { x: 65, y: -35, z: 70 },
+                    ]
+                },
+                { x: 65, y: -15, z: 70 },
+                { x: 70, y: -5, z: 70 },
+                {
+                    bezier: [
+                        { x: 70, y: -5, z: 70 },
+                        { x: 0, y: -15, z: 120 },
+                        { x: -70, y: -5, z: 70 },
+                    ]
+                },
+
+                { x: -70, y: -5, z: 70 },
+            ],
+            stroke: 5,
+        })
+
+        const animate = () => {
+            illo.updateRenderGraph()
+            requestAnimationFrame(animate)
+        }
+        animate()
+    </script>
+</body>
+
+</html>
